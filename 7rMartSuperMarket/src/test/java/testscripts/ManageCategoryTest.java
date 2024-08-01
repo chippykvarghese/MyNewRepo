@@ -1,7 +1,5 @@
 package testscripts;
 import java.awt.AWTException;
-
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.LoginPage;
@@ -13,10 +11,10 @@ public class ManageCategoryTest extends Base
 	@Test
 	public void verifyCanAddANewCategory() throws AWTException {
 		String username = ExcelUtility.getString(1, 0, "ManageCategoryPage");
-	    String password = ExcelUtility.getString(1, 1, "ManageCategoryPage");  
-        String manageCategoryUrl = "https://groceryapp.uniqassosiates.com/admin/list-category";       
-        String categoryText = "New Category";
-        String filePath = "C:\\Users\\Windows 11\\Pictures\\Screenshots\\ABC.png";
+	    String password = ExcelUtility.getString(1, 1, "ManageCategoryPage"); 
+	    String categoryText = ExcelUtility.getString(1, 2, "ManageCategoryPage");
+        String manageCategoryUrl = ExcelUtility.getString(1, 3, "ManageCategoryPage");         
+        String filePath = ExcelUtility.getString(1, 4, "ManageCategoryPage");;
         LoginPage loginpage = new LoginPage(driver);
         loginpage.enterUserNameOnUserNameField(username)
                  .enterPasswordOnPasswordField(password)
@@ -30,8 +28,8 @@ public class ManageCategoryTest extends Base
                           .clickOnTopMenuRadioButton()
                           .clickOnLeftMenuRadioButton()
                           .clickOnSaveButton();
-        boolean successMessageAlert = manageCategoryPage.getTheSuccessMessage().contains("Category Created Successfully");
-        Assert.assertTrue(successMessageAlert, "Unable to add a new category");
+		boolean alertForSuccess = manageCategoryPage.verifySuccessAlertIsDisplayed();
+	    Assert.assertTrue(alertForSuccess, "The new category was not added successfully");
     }
 }
 

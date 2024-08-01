@@ -27,14 +27,13 @@ public class ManageCategoryPage
         fileUploadUtility = new FileUploadUtility();
     }
     @FindBy(xpath="//a[@onclick='click_button(1)']") WebElement newButton; 
-    @FindBy(xpath="//input[@name='category']") WebElement categoryField;
-    @FindBy(xpath = "//*[@id='134-selectable']") WebElement groupSelectionField;
+    @FindBy(xpath="//input[@id='category']") WebElement categoryField;
+    @FindBy(xpath = "//li[@id='134-selectable']") WebElement groupSelectionField;
     @FindBy(xpath="//*[@id='main_img']") WebElement fileUploadField; 
-    @FindBy(xpath="//input[@name='top_menu' and @value='no']") WebElement topMenuRadioButton;
-    @FindBy(xpath="//input[@name='show_home' and @value='no']") WebElement leftMenuRadioButton; 
-    @FindBy(xpath="//button[@name='create']") WebElement saveButton;
-    @FindBy(xpath="//*[@id='form']/div/div[5]/a") WebElement cancelButton;
-    @FindBy(xpath="//div[@class='alert alert-success alert-dismissible']") WebElement successMessage;
+    @FindBy(xpath="//input[@name='top_menu' and @value='no']")WebElement topMenuRadioButton;
+    @FindBy(xpath="//input[@name='show_home' and @value='no']")WebElement leftMenuRadioButton;
+    @FindBy(xpath="//button[@name='create']")WebElement saveButton;
+    @FindBy(xpath="//div[@class='alert alert-success alert-dismissible']") WebElement successMessageAlert;
     
     public ManageCategoryPage navigateToManageCategoryPage(String manageCategoryUrl)
     {
@@ -54,41 +53,46 @@ public class ManageCategoryPage
     }
     public ManageCategoryPage selectTheDiscountGroup()
     {
-    	waitUtility.setExplicitWait(driver, groupSelectionField);
     	groupSelectionField.click();
     	return this;
     } 
         
-    public ManageCategoryPage selectTheImageToUploadFileUploadField(WebElement fileUploadField, String filePath) {
-        waitUtility.setExplicitWait(driver, fileUploadField);
-        fileUploadUtility.fileUploadUsingSendKeys(fileUploadField, filePath); 
-        return this;
+    public ManageCategoryPage selectTheImageToUploadFileUploadField(String filePath) 
+    {	
+    	fileUploadField.sendKeys(filePath);
+        return this;			
     }
 
     public ManageCategoryPage clickOnTopMenuRadioButton()
     {
-    	wait.until(ExpectedConditions.elementToBeClickable(topMenuRadioButton));
-    	pageUtility.checkTheCheckbox(topMenuRadioButton);
-        return this;
-    }
-    public ManageCategoryPage clickOnLeftMenuRadioButton()
-    {
-    	 wait.until(ExpectedConditions.elementToBeClickable(leftMenuRadioButton));
-    	 pageUtility.checkTheCheckbox(leftMenuRadioButton);
-    	 return this;
+    	WaitUtility waitUtility=new WaitUtility();
+		waitUtility.setExplicitWait(driver, topMenuRadioButton);
+		topMenuRadioButton.click();
+	    return this;
     }
     
-    public ManageCategoryPage clickOnSaveButton()
+    public ManageCategoryPage clickOnLeftMenuRadioButton() 
     {
-    	wait.until(ExpectedConditions.elementToBeClickable(saveButton)).click();
-    	return this;  
+    	WaitUtility waitUtility=new WaitUtility();
+		waitUtility.setExplicitWait(driver, leftMenuRadioButton);
+		leftMenuRadioButton.click();
+	    return this;   
     }
     
-    public String getTheSuccessMessage()
+    public ManageCategoryPage clickOnSaveButton() 
     {
-        waitUtility.setExplicitWait(driver, successMessage);
-        return successMessage.getText();
+    	WaitUtility waitUtility=new WaitUtility();
+		waitUtility.setExplicitWait(driver, saveButton);
+		saveButton.click();
+	    return this;   
     }
-   
+     public boolean verifySuccessAlertIsDisplayed() {
+       return wait.until(ExpectedConditions.visibilityOf(successMessageAlert)).isDisplayed();
+    }
  }
+
+   
+
+   
+ 
 
